@@ -617,10 +617,10 @@ var TRIP = {
         { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Yakitori Hikita', sub:'Dinner · yakitori · buyout · 2 seats · 20:30', loc:'Yakitori Hikita, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic', notes:'Two seats at the Hikita yakitori counter at 20:30, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 20:30' }
       ] },
     { date:'2026-11-13', dayNum:14, weekday:'Friday, 13 November', city:'Tokyo', cityClass:'', hotel:null, hq:null, hosted:false,
-      notes:'A confirmed single seat at Sushi Saito at noon, and a requested dinner at Chez Calvert to follow.',
+      notes:'A split noon — Richard at Sushi Saito, Axel at Sukiyabashi Jiro with the Happy Camper host — then a confirmed dinner at Chez Calvert.',
       stops:[
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Saito · split lunch', sub:'Lunch · sushi · buyout · 1 seat · 12:00', loc:'Sushi Saito, Tokyo', addr:'Tokyo', q:'Sushi Saito Tokyo', notes:'A split lunch: one of you at Sushi Saito — one of Tokyo\u0027s most coveted three-star counters, a single seat within the Happy Camper buyout — while the other takes Sukiyabashi Jiro. Confirmed.', alert:'Buyout · 1 seat · 12:00 · split' },
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sukiyabashi Jiro · split lunch', sub:'Lunch · sushi · 1 seat · 12:00', loc:'Sukiyabashi Jiro, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic', notes:'The other half of the split lunch — a single seat at Sukiyabashi Jiro at 12:00. Confirmed.', alert:'Confirmed · 1 seat · 12:00 · split' },
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Saito · Richard', sub:'Lunch · sushi · 3★ · buyout · 1 seat · 12:00', loc:'Sushi Saito, Tokyo', addr:'Roppongi, Tokyo', q:'Sushi Saito Tokyo', notes:'Richard takes the seat at Sushi Saito — one of the most coveted three-star counters in Tokyo, a single seat within the Happy Camper buyout, at 12:00. Confirmed.', alert:'Confirmed · 1 seat · 12:00 · Richard' },
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sukiyabashi Jiro · Axel', sub:'Lunch · sushi · 12:00 · Axel + host · Ginza', loc:'Sukiyabashi Jiro, Ginza', addr:'Ginza, Tokyo', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic', notes:'Axel takes Sukiyabashi Jiro — access requires an introduction, so the Happy Camper host accompanies him (two covers). From the shop: arrive 5 minutes early (11:55); no photography inside; no perfume or fragrance; and no t-shirts or short trousers — smart, covered dress. Confirmed.', alert:'Confirmed · 12:00 · Axel + host · arrive 11:55 · no photos · no fragrance · smart dress' },
         { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Chez Calvert', sub:'Dinner · French · 20:30 · Tokyo', loc:'', addr:'', q:'', notes:'The new restaurant from chef Daniel Calvert — now confirmed for 20:30. Location to be confirmed.', alert:'Confirmed · 20:30' }
       ] },
     { date:'2026-11-14', dayNum:15, weekday:'Saturday, 14 November', city:'Tokyo', cityClass:'', hotel:null, hq:null, hosted:false,
@@ -647,8 +647,8 @@ var WL_CONFIRMED = [
   { name:'Tempura Naruse', style:'Tempura · Wed 11 Nov · 12:00 · buyout · 2 seats · Shizuoka', q:'Tempura Naruse Shizuoka' },
   { name:'Pizza on 38th', style:'Pizza · Thu 12 Nov · 13:30 · lunch · table for 3 · Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic' },
   { name:'Yakitori Hikita', style:'Yakitori · Thu 12 Nov · 20:30 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic' },
-  { name:'Sushi Saito', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · split lunch · 1 seat · Tokyo', q:'Sushi Saito Tokyo' },
-  { name:'Sukiyabashi Jiro', style:'Sushi · Fri 13 Nov · 12:00 · split lunch · 1 seat · Tokyo', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic' },
+  { name:'Sushi Saito', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Richard · 1 seat · Tokyo', q:'Sushi Saito Tokyo' },
+  { name:'Sukiyabashi Jiro', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Axel + host · Ginza', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic' },
   { name:'Chez Calvert', style:'French · Fri 13 Nov · 20:30 · dinner · Tokyo', q:'' }
 ];
 var WL_REQUESTED = [
@@ -1067,7 +1067,7 @@ function renderItinerary(){
     +'<span class="banner-chip confirmed">🍣 Sushi Meino · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍤 Tempura Naruse · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍢 Yakitori Hikita · Confirmed</span>'
-    +'<span class="banner-chip confirmed">🍣 Sushi Saito · Confirmed</span>'
+    +'<span class="banner-chip confirmed">🍣 Saito &amp; Jiro · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍣 Ikkou / Nihee · split · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍤 Tempura Matoba · Confirmed</span>'
     +'<span class="banner-chip confirmed">🇫🇷 Chez Calvert · Confirmed</span>'
