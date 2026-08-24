@@ -608,7 +608,7 @@ var TRIP = {
       stops:[
         { time:'~10:30', type:'transport', badge:'Transfer', badgeType:'requested', title:'Train to Shizuoka', sub:'Shinkansen · ~1 h from Tokyo', loc:'Tokyo Station', addr:'1-9-1 Marunouchi, Chiyoda City, Tokyo', q:'Tokyo Station', notes:'A short Shinkansen run down to Shizuoka for the private Naruse lunch, returning to Tokyo afterward. Times confirmed once the day is set.', alert:null },
         { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tempura Naruse', sub:'Lunch · tempura · buyout · 2 seats · 12:00', loc:'Tempura Naruse', addr:'Shizuoka', q:'Tempura Naruse Shizuoka', notes:'A second confirmed anchor — two seats on the tempura counter, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 12:00' },
-        { time:'Evening', type:'restaurant', badge:'Requested', badgeType:'requested', title:'Kaiseki Suetomi · 末冨', sub:'Dinner · kaiseki · Aoyama, Tokyo', loc:'Kaiseki Suetomi, Aoyama', addr:'Tokyo', q:'35.66001,139.70796', notes:'A kaiseki dinner (末冨) back in Tokyo after the Shizuoka lunch, in the Verde Aoyama building — requested.', alert:'Requested' }
+        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Kaiseki Suetomi · 末冨', sub:'Dinner · kaiseki · 20:30 · Aoyama, Tokyo', loc:'Kaiseki Suetomi, Aoyama', addr:'Tokyo', q:'35.66001,139.70796', notes:'A kaiseki dinner (末冨) back in Tokyo after the Shizuoka lunch, in the Verde Aoyama building — confirmed for 20:30, table for two.', alert:'Confirmed · 20:30 · table for 2' }
       ] },
     { date:'2026-11-12', dayNum:13, weekday:'Thursday, 12 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'A lunch idea at Kenshin, and the confirmed Yakitori Hikita to close the evening.',
@@ -646,6 +646,7 @@ var WL_CONFIRMED = [
   { name:'Sushi Ikkou', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic' },
   { name:'Sushi Nihee', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic' },
   { name:'Tempura Naruse', style:'Tempura · Wed 11 Nov · 12:00 · buyout · 2 seats · Shizuoka', q:'Tempura Naruse Shizuoka' },
+  { name:'Kaiseki Suetomi · 末冨', style:'Kaiseki · Wed 11 Nov · 20:30 · dinner · Aoyama, Tokyo', q:'35.66001,139.70796' },
   { name:'Pizza on 38th', style:'Pizza · Thu 12 Nov · 13:30 · lunch · table for 3 · Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic' },
   { name:'Yakitori Hikita', style:'Yakitori · Thu 12 Nov · 20:30 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic' },
   { name:'Sushi Saito', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Richard · 1 seat · Tokyo', q:'Sushi Saito Tokyo' },
@@ -656,7 +657,6 @@ var WL_REQUESTED = [
   { name:'Ajimori', style:'Kurobuta black-pork shabu-shabu · Tue 3 Nov · lunch · Kagoshima', q:'Ajimori Kagoshima' },
   { name:'Tonkatsu Kenshin · とんかつ憲進', style:'Tonkatsu · Sun 8 Nov · lunch · Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic' },
   { name:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', style:'Charcoal-grilled unagi · Tue 10 Nov · lunch · Yurakucho', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic' },
-  { name:'Kaiseki Suetomi · 末冨', style:'Kaiseki · Wed 11 Nov · dinner · Aoyama, Tokyo', q:'35.66001,139.70796' },
   { name:'Sukiyaki Hiyama', style:'Sukiyaki · Sat 14 Nov · 12:00 · lunch · Tokyo', q:'Sukiyaki Hiyama Ningyocho Tokyo' }
 ];
 var WL_SUGGESTIONS = [
@@ -1072,6 +1072,7 @@ function renderItinerary(){
     +'<span class="banner-chip confirmed">🍣 Ikkou / Nihee · split · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍤 Tempura Matoba · Confirmed</span>'
     +'<span class="banner-chip confirmed">🇫🇷 Chez Calvert · Confirmed</span>'
+    +'<span class="banner-chip confirmed">🍱 Kaiseki Suetomi · Confirmed</span>'
     +'<span class="banner-chip confirmed">🐎 Sakuraan · Confirmed</span>'
     +'<span class="banner-chip">🐖 Ajimori · Kagoshima</span>'
     +'<span class="banner-chip">🍣 Sushi Mekumi · Kanazawa</span>'
