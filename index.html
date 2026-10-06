@@ -587,11 +587,11 @@ var TRIP = {
         { time:'19:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Auberge Eaufeu · オーベルジュ オーフ', sub:'Dinner · 19:00 · countryside dining with rooms', loc:'Auberge Eaufeu, Komatsu', addr:'Komatsu, Ishikawa', q:'Auberge Eaufeu Komatsu', notes:'Dinner at 19:00 and an overnight at Auberge Eaufeu — countryside dining with rooms, among the most interesting culinary destinations in the region and a fitting close to Hokuriku. Confirmed, with two rooms reserved.', alert:'Confirmed · 19:00 · dinner & overnight · 2 rooms' }
       ] },
     { date:'2026-11-08', dayNum:9, weekday:'Sunday, 8 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
-      notes:'Train to Tokyo. By the time you arrive you will have travelled regional Japan — which makes Tokyo\u0027s dining read with far more meaning. Seven days in the capital: the finale rather than the whole.',
+      notes:'Train to Tokyo. By the time you arrive you will have travelled regional Japan — which makes Tokyo\u0027s dining read with far more meaning. Seven days in the capital: the finale rather than the whole. Sushi Yamato for lunch on arrival, Tonkatsu Kenshin in the evening.',
       stops:[
         { time:'Daytime', type:'transport', badge:'Transfer', badgeType:'requested', title:'Train to Tokyo', sub:'Hokuriku Shinkansen · ~2.5–3 h', loc:'Komatsu / Kanazawa', addr:'Hokuriku', q:'Tokyo Station', notes:'The Hokuriku Shinkansen runs straight through to Tokyo. An easy half-day on rails, closing the regional chapter and opening the capital.', alert:null },
-        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tonkatsu Kenshin · とんかつ憲進', sub:'Lunch · tonkatsu · 12:30 · Tokyo', loc:'Tonkatsu Kenshin, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic', notes:'A tonkatsu lunch on arrival in Tokyo — confirmed for 12:30, table for two.', alert:'Confirmed · 12:30 · table for 2' },
-        { time:'Evening', type:'restaurant', badge:'Suggestion', badgeType:'suggestion', title:'Sushi Yamato', sub:'Dinner · sushi · Hatchobori, Tokyo', loc:'Sushi Yamato, Hatchobori', addr:'3-11-12 Hatchobori, Chuo-ku, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo', notes:'A first Tokyo sushi dinner — a suggestion, to be requested. Relocated in July to 3-11-12 Hatchobori, Chuo-ku (Floor and Walls Hacchobori 1F).', alert:null }
+        { time:'11:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Yamato', sub:'Lunch · sushi · 11:30 · Hatchobori, Tokyo', loc:'Sushi Yamato, Hatchobori', addr:'3-11-12 Hatchobori, Chuo-ku, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo', notes:'A first Tokyo sushi lunch on arrival — confirmed for 11:30, table for two. Relocated in July to 3-11-12 Hatchobori, Chuo-ku (Floor and Walls Hacchobori 1F).', alert:'Confirmed · 11:30 · table for 2' },
+        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tonkatsu Kenshin · とんかつ憲進', sub:'Dinner · tonkatsu · 19:30 · Tokyo', loc:'Tonkatsu Kenshin, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic', notes:'A tonkatsu dinner to close the first Tokyo day — confirmed for 19:30, table for two.', alert:'Confirmed · 19:30 · table for 2' }
       ] },
     { date:'2026-11-09', dayNum:10, weekday:'Monday, 9 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'Sushi Meino at noon under our buyout, and a self-booked dinner at Bia in the evening.',
@@ -647,7 +647,8 @@ var WL_CONFIRMED = [
   { name:'Sushi Mekumi', style:'Sushi & kappo · Fri 6 Nov · 18:00 · dinner · near Kanazawa', q:'Sushi Mekumi Nonoichi Kanazawa' },
   { name:'Noguchi Naohiko Sake Institute', style:'Private sake tasting · Sat 7 Nov · 16:00 · Komatsu', q:'Noguchi Naohiko Sake Institute Komatsu' },
   { name:'Auberge Eaufeu', style:'Dining with rooms · Sat 7 Nov · 19:00 · dinner & 2 rooms · Komatsu', q:'Auberge Eaufeu Komatsu' },
-  { name:'Tonkatsu Kenshin · とんかつ憲進', style:'Tonkatsu · Sun 8 Nov · 12:30 · lunch · Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic' },
+  { name:'Sushi Yamato', style:'Sushi · Sun 8 Nov · 11:30 · lunch · Hatchobori, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo' },
+  { name:'Tonkatsu Kenshin · とんかつ憲進', style:'Tonkatsu · Sun 8 Nov · 19:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic' },
   { name:'Sushi Meino', style:'Edomae sushi · Mon 9 Nov · 12:00 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/ZnA9MEq7rhkjYMLY9?g_st=ic' },
   { name:'Sushi Ikkou', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic' },
   { name:'Sushi Nihee', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic' },
@@ -668,7 +669,6 @@ var WL_SUGGESTIONS = [
   { name:'Hakata Genki Ippai!!', style:'Walk-in · Hakata ramen · Mon 2 Nov · Fukuoka', q:'Hakata Genki Ippai Fukuoka' },
   { name:'Ebitei Beikkan', style:'Self-booked · Toyama Bay · Thu 5 Nov · 18:00 · dinner · Toyama', q:'Ebitei Toyama' },
   { name:'Ramen or pancakes', style:'Walk-in · Sat 7 Nov · lunch · Komatsu', q:'Komatsu Ishikawa restaurants' },
-  { name:'Sushi Yamato', style:'Sushi · Sun 8 Nov · dinner · Hatchobori, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo' },
   { name:'Bia', style:'Self-booked · Mon 9 Nov · 20:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/TehQ9BPhVw9qKfnRA?g_st=ic' },
   { name:'MAZ', style:'Self-booked · Sat 14 Nov · 12:15 · lunch · Peruvian · Tokyo', q:'MAZ Tokyo' },
 
