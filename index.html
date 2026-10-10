@@ -550,7 +550,7 @@ var TRIP = {
       notes:'A short morning Shinkansen from Kumamoto brings you into Kagoshima — black pork and shochu country, different again from everything before. The single night is deliberate: both anchors sit comfortably in one day.',
       stops:[
         { time:'Morning', type:'transport', badge:'Transfer', badgeType:'requested', title:'Kumamoto → Kagoshima', sub:'Shinkansen · ~50 min', loc:'Kumamoto Station', addr:'Kumamoto Station, Kumamoto', q:'Kumamoto Station', notes:'A short morning Shinkansen south to Kagoshima — under an hour — taken early so the day\u0027s two anchors fall comfortably either side of it.', alert:null },
-        { time:'12:00', type:'restaurant', badge:'Requested', badgeType:'requested', title:'Ajimori · kurobuta shabu-shabu', sub:'Lunch · black pork · 12:00 · Kagoshima', loc:'Ajimori, Kagoshima', addr:'Kagoshima', q:'Ajimori Kagoshima', notes:'Arguably the most famous black-pork shabu-shabu house in Japan, and the first thing you do on arrival — the benchmark for the tradition, taken when appetite is sharpest. Requested for 12:00, table for two — to be confirmed.', alert:'Requested · 12:00 · to be confirmed' },
+        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Ajimori · kurobuta shabu-shabu', sub:'Lunch · black pork · 12:30 · Kagoshima', loc:'Ajimori, Kagoshima', addr:'Kagoshima', q:'Ajimori Kagoshima', notes:'Arguably the most famous black-pork shabu-shabu house in Japan, and the first thing you do on arrival — the benchmark for the tradition, taken when appetite is sharpest. Confirmed for 12:30, table for two — reservation under Morikawa.', alert:'Confirmed · 12:30 · table for 2 · under Morikawa' },
         { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Yakitori Kouun · 焼鳥 行雲', sub:'Dinner · yakitori · 20:30 · Kagoshima', loc:'Yakitori Kouun, Kagoshima', addr:'Kagoshima', q:'Yakitori Kouun Kagoshima', notes:'A Kagoshima yakitori dinner at 20:30 to close the day — confirmed, table for two.', alert:'Confirmed · 20:30 · table for 2' }
       ] },
     { date:'2026-11-04', dayNum:5, weekday:'Wednesday, 4 November', city:'Kanazawa', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', hotelNote:'Korinbo · 2 rooms', hosted:false,
@@ -640,6 +640,7 @@ var WL_CONFIRMED = [
   { name:'Sushi Sakai', style:'Sushi · Sat 31 Oct · 19:30 · dinner · Fukuoka', q:'Sushi Sakai Fukuoka' },
   { name:'Imoto', style:'Kappo · Sun 1 Nov · 19:30 · dinner · Fukuoka', q:'https://maps.app.goo.gl/47E3Nuz9R4tdDRDv8?g_st=ic' },
   { name:'Sakuraan · 桜庵', style:'Refined horse cuisine · Mon 2 Nov · 19:30 · dinner · Kumamoto', q:'https://maps.app.goo.gl/4sa5P8ughVyfAUhz8?g_st=ic' },
+  { name:'Ajimori', style:'Kurobuta black-pork shabu-shabu · Tue 3 Nov · 12:30 · lunch · Kagoshima', q:'Ajimori Kagoshima' },
   { name:'Tachigui Sushi Yusho · 立喰い寿司 有匠', style:'Standing sushi · Thu 5 Nov · 11:00 · lunch · Kanazawa', q:'Tachigui Sushi Yusho Kanazawa' },
   { name:'Yakitori Kouun · 焼鳥 行雲', style:'Yakitori · Tue 3 Nov · 20:30 · dinner · Kagoshima', q:'Yakitori Kouun Kagoshima' },
   { name:'Tempura Matoba', style:'Tempura · Wed 4 Nov · 19:00 · dinner · Kanazawa', q:'https://maps.app.goo.gl/G3rJwmds3xnUkErJ8?g_st=ic' },
@@ -661,7 +662,6 @@ var WL_CONFIRMED = [
   { name:'Chez Calvert', style:'French · Fri 13 Nov · 20:30 · dinner · Tokyo', q:'' }
 ];
 var WL_REQUESTED = [
-  { name:'Ajimori', style:'Kurobuta black-pork shabu-shabu · Tue 3 Nov · 12:00 · lunch · Kagoshima · to be confirmed', q:'Ajimori Kagoshima' },
   { name:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', style:'Charcoal-grilled unagi · Tue 10 Nov · lunch · Yurakucho (booking in October)', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic' }
 ];
 var WL_SUGGESTIONS = [
@@ -1079,7 +1079,7 @@ function renderItinerary(){
     +'<span class="banner-chip confirmed">🇫🇷 Chez Calvert · Confirmed</span>'
     +'<span class="banner-chip confirmed">🍱 Kaiseki Suetomi · Confirmed</span>'
     +'<span class="banner-chip confirmed">🐎 Sakuraan · Confirmed</span>'
-    +'<span class="banner-chip">🐖 Ajimori · Requested</span>'
+    +'<span class="banner-chip confirmed">🐖 Ajimori · Confirmed</span>'
     +'<span class="banner-chip">🍣 Sushi Mekumi · Kanazawa</span>'
     +'<span class="banner-chip confirmed">🏞 Auberge Eaufeu · Confirmed</span>'
     +'</div></div>'
