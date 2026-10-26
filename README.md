@@ -6,6 +6,7 @@ Changes to `index.html`, newest first. Source of truth: the Google Sheet
 "HCI Canvas/Program for Richard HAHNE 2026/10" (CANVAS and Confirmation tabs).
 
 ### 2026-10-26
+- Added `CLAUDE.md` with the update workflow and this changelog rule.
 - **Restored the full page.** Commit 9a3163a had replaced `index.html` with a
   plain-text stub, removing the encrypted statement and all map links. Rebuilt
   from 84f4e14 (10 Oct), with the statement and all 35 map links unchanged.
