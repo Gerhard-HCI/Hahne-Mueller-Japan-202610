@@ -5,6 +5,10 @@
 Changes to `index.html`, newest first. Source of truth: the Google Sheet
 "HCI Canvas/Program for Richard HAHNE 2026/10" (CANVAS and Confirmation tabs).
 
+### 2026-10-28
+- **Noguchi Naohiko Sake Institute · Sat 7 Nov: tasting moved 16:00 → 15:00.**
+  Updated the stop (time, subtitle, notes, alert) and the Confirmed wish list.
+
 ### 2026-10-26
 - **Guest notes from Richard's questions and the reservation notes** (not the sheet):
   - Dress codes: Chez Calvert (strictest: smart long-sleeved shirt, dress
