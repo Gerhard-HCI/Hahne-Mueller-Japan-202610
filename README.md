@@ -6,6 +6,12 @@ Changes to `index.html`, newest first. Source of truth: the Google Sheet
 "HCI Canvas/Program for Richard HAHNE 2026/10" (CANVAS and Confirmation tabs).
 
 ### 2026-10-29
+- **Utilities · Attire card replaced by "Dress Etiquette".** Absorbs the four
+  previous attire bullets (including the Chez Calvert / Kaiseki Suetomi /
+  Sushi Ikkou step-up note) and adds: what not to wear to dinner, shoes coming
+  off, travelling light to dinner, layers, yukata at an inn, tattoos at public
+  baths, and watches at the counter. The Perfume & Fragrance card is unchanged
+  and remains separate.
 - **Taxi card.** Stop cards now carry four buttons — Maps / Nav / Taxi / Copy.
   Taxi opens a full-screen card in Japanese (venue name, address and
   「ここまでお願いします」) to show a driver. Backed by a new `JA_DIR` directory of
