@@ -153,7 +153,7 @@
     .ticket-row{display:flex;flex-wrap:wrap;gap:6px}
     .ticket-btn{flex:1 1 44%;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;min-height:38px;border:1px solid #c9a96a;background:#faf6ef;color:#1f3a5f;text-decoration:none}
     .ticket-btn:active{background:#f1e7d2}
-    .map-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:8px 5px;border-radius:var(--radius-sm);font-size:11px;font-weight:500;min-height:34px;border:1px solid var(--border);background:var(--white);color:var(--ink-2);cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .map-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:3px;padding:8px 3px;border-radius:var(--radius-sm);font-size:10.5px;font-weight:500;min-height:34px;border:1px solid var(--border);background:var(--white);color:var(--ink-2);cursor:pointer;-webkit-tap-highlight-color:transparent}
     .map-btn:active{transform:scale(.96)}
     .map-btn.map-disabled{color:var(--border);cursor:default;background:var(--border-lt);border-color:var(--border-lt);pointer-events:none;opacity:.4}
     .map-btn.mp{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600}
@@ -224,6 +224,18 @@
     .diet-chip.avoid{background:#FFEDD5;color:#9A3412;border-color:#FED7AA}
 
     /* DIET MODAL — Japanese chef card */
+
+    .taxi-card{background:#fff;border-radius:16px;padding:26px 22px;text-align:center;border:1px solid var(--border-lt)}
+    .taxi-to{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+    .taxi-name{font-family:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;font-size:30px;line-height:1.3;color:#000;font-weight:600;margin-bottom:6px}
+    .taxi-name-en{font-size:13px;color:var(--ink-3);margin-bottom:20px}
+    .taxi-addr{font-family:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;font-size:25px;line-height:1.65;color:#000;font-weight:600;padding:18px 10px;border-top:2px solid #000;border-bottom:2px solid #000}
+    .taxi-ask{font-family:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif;font-size:19px;color:#000;margin-top:20px;line-height:1.5}
+    .taxi-ask-en{font-size:12px;color:var(--ink-3);margin-top:5px;font-style:italic}
+    .taxi-actions{display:flex;gap:9px;margin-top:20px}
+    .taxi-act{flex:1;padding:12px 8px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid var(--border);background:var(--white);color:var(--ink-2)}
+    .taxi-act.pri{background:var(--navy);color:#fff;border-color:var(--navy)}
+
     .modal-overlay{position:fixed;inset:0;background:rgba(7,27,53,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:10000;display:none;align-items:flex-end;justify-content:center;animation:overlayIn .25s ease}
     .modal-overlay.active{display:flex}
     @keyframes overlayIn{from{opacity:0}to{opacity:1}}
@@ -479,6 +491,21 @@
 
 <!-- diet sheet omitted: no dietary notes on file -->
 
+<div class="modal-overlay" id="taxi-modal" onclick="if(event.target===this)closeTaxi()">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-grabber"></div>
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Show the driver</div>
+        <div class="modal-title-jp">タクシーの運転手にお見せください</div>
+      </div>
+      <button class="modal-close" onclick="closeTaxi()" aria-label="Close">&times;</button>
+    </div>
+    <div id="taxi-body"></div>
+    <div class="modal-footer-note">住所は Google マップの日本語表記のとおりです。<br><em>Address shown exactly as Google Maps renders it in Japanese.</em></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <div id="console">
@@ -527,41 +554,41 @@ var TRIP = {
   startDate:'2026-10-31',
   endDate:  '2026-11-14',
   days:[
-    { date:'2026-10-31', dayNum:1, weekday:'Saturday, 31 October', city:'Fukuoka', cityClass:'', hotel:'The Lively', hq:'The Lively Fukuoka hotel', hosted:false,
+    { date:'2026-10-31', dayNum:1, weekday:'Saturday, 31 October', city:'Fukuoka', cityClass:'', hotel:'The Lively', hq:'The Lively Fukuoka hotel', ja:'lively', hosted:false,
       notes:'Arrive Fukuoka 14:40 from Seoul and ease into Japan through one of its great food cities — relaxed and unhurried, exceptional seafood and sushi cut to the local idiom. A deliberately gentle opening before the week deepens.',
       stops:[
         { time:'14:40', type:'flight', badge:'Arrival', badgeType:'self-booked', title:'Arrive Fukuoka', sub:'From Seoul · private transfer · Kyushu', loc:'Fukuoka Airport', addr:'Fukuoka Airport, Hakata Ward, Fukuoka', q:'Fukuoka Airport', notes:'You land at Fukuoka at 14:40 from Seoul. A private transfer takes you into the city — Fukuoka Airport sits unusually close to the centre, only a few minutes from Hakata. Draw a little yen at the airport; some regional counters prefer cash.', alert:null },
-        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Sakai', sub:'Dinner · sushi · 19:30 · Fukuoka', loc:'Sushi Sakai, Fukuoka', addr:'Fukuoka', q:'Sushi Sakai Fukuoka', notes:'The first Fukuoka dinner, now confirmed — the counter at 19:30 for the two of you, a celebrated Fukuoka sushi room to open the trip.', alert:'Confirmed · 19:30 · table for 2' }
+        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Sakai', sub:'Dinner · sushi · 19:30 · Fukuoka', loc:'Sushi Sakai, Fukuoka', addr:'Fukuoka', q:'Sushi Sakai Fukuoka', ja:'sakai', notes:'The first Fukuoka dinner, now confirmed — the counter at 19:30 for the two of you, a celebrated Fukuoka sushi room to open the trip.', alert:'Confirmed · 19:30 · table for 2' }
       ] },
-    { date:'2026-11-01', dayNum:2, weekday:'Sunday, 1 November', city:'Fukuoka', cityClass:'', hotel:'The Lively', hq:'The Lively Fukuoka hotel', hosted:false,
+    { date:'2026-11-01', dayNum:2, weekday:'Sunday, 1 November', city:'Fukuoka', cityClass:'', hotel:'The Lively', hq:'The Lively Fukuoka hotel', ja:'lively', hosted:false,
       notes:'A full day in Fukuoka — the city\u0027s own specialties, ramen at its source, and a refined kappo dinner.',
       stops:[
-        { time:'~12:00', type:'restaurant', badge:'Walk-in', badgeType:'walk-in', title:'Ichiran · 一蘭 本社総本店', sub:'Lunch · tonkotsu ramen · the flagship', loc:'Ichiran Honsha Sohonten', addr:'Nakasu, Hakata Ward, Fukuoka', q:'https://maps.app.goo.gl/WSRpkMY47ugCKsABA?g_st=ic', notes:'The head-office flagship of the famous tonkotsu chain, in Nakasu — ramen at its source, in the private focus-booth style Ichiran is known for. A casual, characterful Fukuoka lunch.', alert:null },
-        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Imoto', sub:'Dinner · kappo · 19:30 · Fukuoka', loc:'Imoto, Fukuoka', addr:'Fukuoka', q:'https://maps.app.goo.gl/47E3Nuz9R4tdDRDv8?g_st=ic', notes:'A refined kappo dinner to close the Fukuoka leg — now confirmed at Imoto for 19:30.', alert:'Confirmed · 19:30 · table for 2' }
+        { time:'~12:00', type:'restaurant', badge:'Walk-in', badgeType:'walk-in', title:'Ichiran · 一蘭 本社総本店', sub:'Lunch · tonkotsu ramen · the flagship', loc:'Ichiran Honsha Sohonten', addr:'Nakasu, Hakata Ward, Fukuoka', q:'https://maps.app.goo.gl/WSRpkMY47ugCKsABA?g_st=ic', ja:'ichiran', notes:'The head-office flagship of the famous tonkotsu chain, in Nakasu — ramen at its source, in the private focus-booth style Ichiran is known for. A casual, characterful Fukuoka lunch.', alert:null },
+        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Imoto', sub:'Dinner · kappo · 19:30 · Fukuoka', loc:'Imoto, Fukuoka', addr:'Fukuoka', q:'https://maps.app.goo.gl/47E3Nuz9R4tdDRDv8?g_st=ic', ja:'imoto', notes:'A refined kappo dinner to close the Fukuoka leg — now confirmed at Imoto for 19:30.', alert:'Confirmed · 19:30 · table for 2' }
       ] },
-    { date:'2026-11-02', dayNum:3, weekday:'Monday, 2 November', city:'Kumamoto', cityClass:'kyoto', hotel:'One Station', hq:'One Station Hotel Kumamoto', hosted:false,
+    { date:'2026-11-02', dayNum:3, weekday:'Monday, 2 November', city:'Kumamoto', cityClass:'kyoto', hotel:'One Station', hq:'One Station Hotel Kumamoto', ja:'onestation', hosted:false,
       notes:'South from Fukuoka to Kumamoto, for one of the most distinctive regional experiences in the country — refined horse cuisine, elevated into a kaiseki-style progression.',
       stops:[
-        { time:'~11:30', type:'restaurant', badge:'Walk-in', badgeType:'walk-in', title:'Hakata Genki Ippai!! · 博多元気一杯', sub:'Lunch · Hakata ramen · a last Fukuoka bite', loc:'Hakata, Fukuoka', addr:'Hakata Ward, Fukuoka', q:'Hakata Genki Ippai Fukuoka', notes:'A celebrated, cult Hakata ramen counter — a final Fukuoka bowl before heading south. Penciled in the canvas; to be requested.', alert:null },
+        { time:'~11:30', type:'restaurant', badge:'Walk-in', badgeType:'walk-in', title:'Hakata Genki Ippai!! · 博多元気一杯', sub:'Lunch · Hakata ramen · a last Fukuoka bite', loc:'Hakata, Fukuoka', addr:'Hakata Ward, Fukuoka', q:'Hakata Genki Ippai Fukuoka', ja:'genki', notes:'A celebrated, cult Hakata ramen counter — a final Fukuoka bowl before heading south. Penciled in the canvas; to be requested.', alert:null },
         { time:'~13:30', type:'transport', badge:'Transfer', badgeType:'requested', title:'Fukuoka → Kumamoto', sub:'Shinkansen · ~40 min', loc:'Hakata Station', addr:'Hakata Station, Hakata Ward, Fukuoka', q:'Hakata Station Fukuoka', notes:'A short Shinkansen run south to Kumamoto — about 40 minutes. Private drivers and rail transfers run throughout the trip; tickets issued once the structure is agreed.', alert:null },
-        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sakuraan · 桜庵', sub:'Dinner · sakura niku kaiseki · 19:30 · Kumamoto', loc:'Sakuraan, Kumamoto', addr:'Kumamoto', q:'https://maps.app.goo.gl/4sa5P8ughVyfAUhz8?g_st=ic', notes:'Kumamoto\u0027s centuries-old tradition of horse cuisine (sakura niku), elevated into a kaiseki-style progression. Not novelty — a serious, considered exploration of a culinary culture particular to this place. One of the trip\u0027s quiet highlights. Confirmed for 19:30, table for two.', alert:'Confirmed · 19:30 · table for 2' }
+        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sakuraan · 桜庵', sub:'Dinner · sakura niku kaiseki · 19:30 · Kumamoto', loc:'Sakuraan, Kumamoto', addr:'Kumamoto', q:'https://maps.app.goo.gl/4sa5P8ughVyfAUhz8?g_st=ic', ja:'sakuraan', notes:'Kumamoto\u0027s centuries-old tradition of horse cuisine (sakura niku), elevated into a kaiseki-style progression. Not novelty — a serious, considered exploration of a culinary culture particular to this place. One of the trip\u0027s quiet highlights. Confirmed for 19:30, table for two.', alert:'Confirmed · 19:30 · table for 2' }
       ] },
-    { date:'2026-11-03', dayNum:4, weekday:'Tuesday, 3 November', city:'Kagoshima', cityClass:'', hotel:'FAV LUX Tenmonkan', hq:'FAV LUX Tenmonkan Kagoshima', hosted:false,
+    { date:'2026-11-03', dayNum:4, weekday:'Tuesday, 3 November', city:'Kagoshima', cityClass:'', hotel:'FAV LUX Tenmonkan', hq:'FAV LUX Tenmonkan Kagoshima', ja:'favlux', hosted:false,
       notes:'A short morning Shinkansen from Kumamoto brings you into Kagoshima — black pork and shochu country, different again from everything before. The single night is deliberate: both anchors sit comfortably in one day.',
       stops:[
         { time:'Morning', type:'transport', badge:'Transfer', badgeType:'requested', title:'Kumamoto → Kagoshima', sub:'Shinkansen · ~50 min', loc:'Kumamoto Station', addr:'Kumamoto Station, Kumamoto', q:'Kumamoto Station', notes:'A short morning Shinkansen south to Kagoshima — under an hour — taken early so the day\u0027s two anchors fall comfortably either side of it.', alert:null },
-        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Ajimori · kurobuta shabu-shabu', sub:'Lunch · black pork · 12:30 · Kagoshima', loc:'Ajimori, Kagoshima', addr:'Kagoshima', q:'Ajimori Kagoshima', notes:'Arguably the most famous black-pork shabu-shabu house in Japan, and the first thing you do on arrival — the benchmark for the tradition, taken when appetite is sharpest. Confirmed for 12:30, table for two — reservation under Morikawa. On arrival, give your reservation name as RICHARD MORIKAWA.', alert:'Confirmed · 12:30 · table for 2 · under Morikawa · On arrival, give your reservation name as RICHARD MORIKAWA.' },
+        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Ajimori · kurobuta shabu-shabu', sub:'Lunch · black pork · 12:30 · Kagoshima', loc:'Ajimori, Kagoshima', addr:'Kagoshima', q:'Ajimori Kagoshima', ja:'ajimori', notes:'Arguably the most famous black-pork shabu-shabu house in Japan, and the first thing you do on arrival — the benchmark for the tradition, taken when appetite is sharpest. Confirmed for 12:30, table for two — reservation under Morikawa. On arrival, give your reservation name as RICHARD MORIKAWA.', alert:'Confirmed · 12:30 · table for 2 · under Morikawa · On arrival, give your reservation name as RICHARD MORIKAWA.' },
         { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Yakitori Kouun · 焼鳥 行雲', sub:'Dinner · yakitori · 20:30 · Kagoshima', loc:'Yakitori Kouun, Kagoshima', addr:'Kagoshima', q:'Yakitori Kouun Kagoshima', notes:'A Kagoshima yakitori dinner at 20:30 to close the day — confirmed, table for two.', alert:'Confirmed · 20:30 · table for 2' }
       ] },
-    { date:'2026-11-04', dayNum:5, weekday:'Wednesday, 4 November', city:'Kanazawa', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', hotelNote:'Korinbo · 2 rooms', hosted:false,
+    { date:'2026-11-04', dayNum:5, weekday:'Wednesday, 4 November', city:'Kanazawa', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', ja:'koko', hotelNote:'Korinbo · 2 rooms', hosted:false,
       notes:'Fly Kagoshima → Komatsu and cross to Hokuriku — one of Japan\u0027s great food regions and a complete change of character. Komatsu is the gateway; Kanazawa is twenty-odd minutes on.',
       stops:[
         { time:'11:00', type:'transport', badge:'Flight', badgeType:'self-booked', title:'JAL 644 · Kagoshima → Haneda', sub:'KOJ 11:00 → HND 12:35 · 1 h 35 m · 767-300', loc:'Kagoshima Airport (KOJ)', addr:'Kagoshima Airport', q:'Kagoshima Airport', notes:'First leg up to Tokyo Haneda on Japan Airlines 644 (JL 644). Wide-body Boeing 767-300, economy. Booked (self-arranged) · booking 833237240.', alert:'Booking 833237240' },
         { time:'13:30', type:'transport', badge:'Flight', badgeType:'self-booked', title:'JAL 187 · Haneda → Komatsu', sub:'HND 13:30 → KMQ 14:35 · 1 h 5 m · 737-800', loc:'Tokyo Haneda (HND)', addr:'Haneda Airport, Tokyo', q:'Haneda Airport Tokyo', notes:'A 55-minute connection at Haneda, then Japan Airlines 187 (JL 187) across to Komatsu — the gateway to Kanazawa. Boeing 737-800, economy. Booked (self-arranged) · booking 833237240.', alert:'55 m connection at Haneda · booking 833237240' },
         { time:'~14:50', type:'transport', badge:'Transfer', badgeType:'requested', title:'Private car · Komatsu → Kanazawa', sub:'~20 minutes into the city', loc:'Komatsu Airport (KMQ)', addr:'Komatsu Airport', q:'Komatsu Airport', notes:'A private car meets the 14:35 arrival at Komatsu and runs on to Kanazawa, about twenty minutes.', alert:null },
-        { time:'19:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tempura Matoba', sub:'Dinner · tempura · 19:00 · Kanazawa', loc:'Tempura Matoba, Kanazawa', addr:'Kanazawa, Ishikawa', q:'https://maps.app.goo.gl/G3rJwmds3xnUkErJ8?g_st=ic', notes:'A Kanazawa tempura dinner at 19:00 — now confirmed.', alert:'Confirmed · 19:00' }
+        { time:'19:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tempura Matoba', sub:'Dinner · tempura · 19:00 · Kanazawa', loc:'Tempura Matoba, Kanazawa', addr:'Kanazawa, Ishikawa', q:'https://maps.app.goo.gl/G3rJwmds3xnUkErJ8?g_st=ic', ja:'matoba', notes:'A Kanazawa tempura dinner at 19:00 — now confirmed.', alert:'Confirmed · 19:00' }
       ] },
-    { date:'2026-11-05', dayNum:6, weekday:'Thursday, 5 November', city:'Toyama', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', hotelNote:'Kanazawa room kept for the Toyama day-trip', hosted:false,
+    { date:'2026-11-05', dayNum:6, weekday:'Thursday, 5 November', city:'Toyama', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', ja:'koko', hotelNote:'Kanazawa room kept for the Toyama day-trip', hosted:false,
       notes:'A Kanazawa sushi lunch first, then a day-trip across to Toyama Bay — keeping the Kanazawa room for the night.',
       stops:[
         { time:'Morning', type:'transport', badge:'Transfer', badgeType:'requested', title:'Taxi to the sushi counter', sub:'Private car · Kanazawa', loc:'Kanazawa', addr:'Kanazawa, Ishikawa', q:'Kanazawa', notes:'A taxi from the hotel to Tachigui Sushi Yusho for the 11:00 counter.', alert:null },
@@ -569,64 +596,64 @@ var TRIP = {
         { time:'After lunch', type:'transport', badge:'Transfer', badgeType:'requested', title:'Taxi to Kanazawa Station', sub:'Private car', loc:'Kanazawa Station', addr:'Kanazawa Station, Kanazawa, Ishikawa', q:'Kanazawa Station', notes:'A taxi from the sushi counter to Kanazawa Station for the Toyama train.', alert:null },
         { time:'Midday', type:'transport', badge:'Transfer', badgeType:'requested', title:'Kanazawa → Toyama', sub:'Shinkansen · ~20–40 min · day-trip', loc:'Kanazawa Station', addr:'Kanazawa Station, Kanazawa, Ishikawa', q:'Kanazawa Station', notes:'Twenty-odd minutes by Shinkansen across to Toyama Bay for the afternoon, returning to the same Kanazawa room for the night.', alert:null },
         { time:'Daytime', type:'activity', badge:'Suggestion', badgeType:'suggestion', title:'Toyama Bay', sub:'White shrimp · glass art · the deep bay', loc:'Toyama Bay', addr:'Toyama', q:'Toyama Bay', notes:'One of the richest fishing grounds in Japan — famed for shiroebi (white shrimp). The Toyama Glass Art Museum (a Kengo Kuma building) is an easy add for the afternoon.', alert:null },
-        { time:'18:00', type:'restaurant', badge:'Self-booked', badgeType:'self-booked', title:'Ebitei Beikkan · 海老亭別館', sub:'Dinner · 18:00 · Toyama Bay institution', loc:'Ebitei Beikkan, Toyama', addr:'Toyama', q:'Ebitei Toyama', notes:'A long-standing institution built around Toyama Bay\u0027s catch, booked directly for 18:00, table for two — then back to Kanazawa.', alert:'Self-booked · 18:00 · table for 2' }
+        { time:'18:00', type:'restaurant', badge:'Self-booked', badgeType:'self-booked', title:'Ebitei Beikkan · 海老亭別館', sub:'Dinner · 18:00 · Toyama Bay institution', loc:'Ebitei Beikkan, Toyama', addr:'Toyama', q:'Ebitei Toyama', ja:'ebitei', notes:'A long-standing institution built around Toyama Bay\u0027s catch, booked directly for 18:00, table for two — then back to Kanazawa.', alert:'Self-booked · 18:00 · table for 2' }
       ] },
-    { date:'2026-11-06', dayNum:7, weekday:'Friday, 6 November', city:'Kanazawa', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', hotelNote:'Korinbo · 2 rooms', hosted:false,
+    { date:'2026-11-06', dayNum:7, weekday:'Friday, 6 November', city:'Kanazawa', cityClass:'', hotel:'KOKO HOTEL Premier Kanazawa Korinbo', hq:'KOKO HOTEL Premier Kanazawa Korinbo', ja:'koko', hotelNote:'Korinbo · 2 rooms', hosted:false,
       notes:'A full Kanazawa day — many consider it the finest small food city in Japan: superb seafood, a deep sake culture, and living craft traditions.',
       stops:[
-        { time:'11:45', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Respiración · レスピラシオン', sub:'Lunch · Noto produce · 11:45 · Kanazawa', loc:'Respiración, Kanazawa', addr:'Kanazawa, Ishikawa', q:'Respiracion Kanazawa', notes:'A confirmed Kanazawa lunch — Spanish technique on the produce of Noto and the Sea of Japan. Confirmed for 11:45.', alert:'Confirmed · 11:45' },
+        { time:'11:45', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Respiración · レスピラシオン', sub:'Lunch · Noto produce · 11:45 · Kanazawa', loc:'Respiración, Kanazawa', addr:'Kanazawa, Ishikawa', q:'Respiracion Kanazawa', ja:'respiracion', notes:'A confirmed Kanazawa lunch — Spanish technique on the produce of Noto and the Sea of Japan. Confirmed for 11:45.', alert:'Confirmed · 11:45' },
         { time:'Afternoon', type:'activity', badge:'Suggestion', badgeType:'suggestion', title:'Kanazawa at leisure', sub:'Kenroku-en · Higashi Chaya · Omicho · crafts', loc:'Kenroku-en Garden', addr:'Kenrokumachi, Kanazawa, Ishikawa', q:'Kenrokuen Garden Kanazawa', notes:'One of the three great gardens of Japan, the geisha lanes of Higashi Chaya, Omicho Market\u0027s seafood stalls, and the gold-leaf and lacquer crafts the city is known for — at your own pace.', alert:null },
-        { time:'18:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Mekumi · めくみ', sub:'Dinner · sushi & kappo · 18:00 · near Kanazawa', loc:'Sushi Mekumi, Nonoichi', addr:'Nonoichi, Ishikawa', q:'Sushi Mekumi Nonoichi Kanazawa', notes:'One of Hokuriku\u0027s most celebrated counters, just outside Kanazawa — exceptional local seafood, now confirmed for 18:00.', alert:'Confirmed · 18:00 · table for 2' }
+        { time:'18:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Mekumi · めくみ', sub:'Dinner · sushi & kappo · 18:00 · near Kanazawa', loc:'Sushi Mekumi, Nonoichi', addr:'Nonoichi, Ishikawa', q:'Sushi Mekumi Nonoichi Kanazawa', ja:'mekumi', notes:'One of Hokuriku\u0027s most celebrated counters, just outside Kanazawa — exceptional local seafood, now confirmed for 18:00.', alert:'Confirmed · 18:00 · table for 2' }
       ] },
-    { date:'2026-11-07', dayNum:8, weekday:'Saturday, 7 November', city:'Komatsu', cityClass:'', hotel:'Auberge Eaufeu', hq:'Auberge Eaufeu Komatsu', hotelNote:'Dining with rooms · 2 rooms confirmed', hosted:false,
+    { date:'2026-11-07', dayNum:8, weekday:'Saturday, 7 November', city:'Komatsu', cityClass:'', hotel:'Auberge Eaufeu', hq:'Auberge Eaufeu Komatsu', ja:'eaufeu', hotelNote:'Dining with rooms · 2 rooms confirmed', hosted:false,
       notes:'A sake-brewery visit, then dinner and an overnight at Auberge Eaufeu — among the most interesting countryside culinary destinations in the region, and a fitting close to the Hokuriku section before Tokyo.',
       stops:[
         { time:'Morning', type:'transport', badge:'Transfer', badgeType:'requested', title:'Toyama → Komatsu', sub:'Private car / rail', loc:'Toyama', addr:'Toyama', q:'Toyama Station', notes:'Back toward Komatsu, with a sake brewery along the way. Routing confirmed once the flow is agreed.', alert:null },
         { time:'Lunch', type:'restaurant', badge:'Walk-in', badgeType:'walk-in', title:'Ramen or pancakes', sub:'Lunch · walk-in · Komatsu', loc:'Komatsu', addr:'Komatsu, Ishikawa', q:'Komatsu Ishikawa restaurants', notes:'A casual walk-in lunch on the way into Komatsu — ramen or pancakes, no reservation needed.', alert:null },
         { time:'15:00', type:'activity', badge:'Confirmed', badgeType:'confirmed', title:'Noguchi Naohiko Sake Institute', sub:'農口尚彦研究所 · private sake tasting · 15:00 · Komatsu', loc:'Noguchi Naohiko Sake Institute', addr:'Komatsu, Ishikawa', q:'Noguchi Naohiko Sake Institute Komatsu', notes:'A private tasting at the Noguchi Naohiko Sake Institute — the brewery of the celebrated tōji (master brewer) Naohiko Noguchi, one of the most revered figures in Japanese sake — at 15:00 before dinner. Confirmed.', alert:'Confirmed · 15:00 · private tasting' },
-        { time:'19:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Auberge Eaufeu · オーベルジュ オーフ', sub:'Dinner · 19:00 · countryside dining with rooms', loc:'Auberge Eaufeu, Komatsu', addr:'Komatsu, Ishikawa', q:'Auberge Eaufeu Komatsu', notes:'Dinner at 19:00 and an overnight at Auberge Eaufeu — countryside dining with rooms, among the most interesting culinary destinations in the region and a fitting close to Hokuriku. Confirmed, with two rooms reserved.', alert:'Confirmed · 19:00 · dinner & overnight · 2 rooms' }
+        { time:'19:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Auberge Eaufeu · オーベルジュ オーフ', sub:'Dinner · 19:00 · countryside dining with rooms', loc:'Auberge Eaufeu, Komatsu', addr:'Komatsu, Ishikawa', q:'Auberge Eaufeu Komatsu', ja:'eaufeu', notes:'Dinner at 19:00 and an overnight at Auberge Eaufeu — countryside dining with rooms, among the most interesting culinary destinations in the region and a fitting close to Hokuriku. Confirmed, with two rooms reserved.', alert:'Confirmed · 19:00 · dinner & overnight · 2 rooms' }
       ] },
-    { date:'2026-11-08', dayNum:9, weekday:'Sunday, 8 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-08', dayNum:9, weekday:'Sunday, 8 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'Train to Tokyo. By the time you arrive you will have travelled regional Japan — which makes Tokyo\u0027s dining read with far more meaning. Seven days in the capital: the finale rather than the whole. Sushi Yamato for lunch on arrival, Tonkatsu Kenshin in the evening.',
       stops:[
         { time:'Daytime', type:'transport', badge:'Transfer', badgeType:'requested', title:'Train to Tokyo', sub:'Hokuriku Shinkansen · ~2.5–3 h', loc:'Komatsu / Kanazawa', addr:'Hokuriku', q:'Tokyo Station', notes:'The Hokuriku Shinkansen runs straight through to Tokyo. An easy half-day on rails, closing the regional chapter and opening the capital.', alert:null },
-        { time:'11:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Yamato', sub:'Lunch · sushi · 11:30 · Hatchobori, Tokyo', loc:'Sushi Yamato, Hatchobori', addr:'3-11-12 Hatchobori, Chuo-ku, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo', notes:'A first Tokyo sushi lunch on arrival — confirmed for 11:30, table for two. Relocated in July to 3-11-12 Hatchobori, Chuo-ku (Floor and Walls Hacchobori 1F).', alert:'Confirmed · 11:30 · table for 2' },
-        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tonkatsu Kenshin · とんかつ憲進', sub:'Dinner · tonkatsu · 19:30 · Tokyo', loc:'Tonkatsu Kenshin, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic', notes:'A tonkatsu dinner to close the first Tokyo day — confirmed for 19:30, table for two.', alert:'Confirmed · 19:30 · table for 2' }
+        { time:'11:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Yamato', sub:'Lunch · sushi · 11:30 · Hatchobori, Tokyo', loc:'Sushi Yamato, Hatchobori', addr:'3-11-12 Hatchobori, Chuo-ku, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo', ja:'yamato', notes:'A first Tokyo sushi lunch on arrival — confirmed for 11:30, table for two. Relocated in July to 3-11-12 Hatchobori, Chuo-ku (Floor and Walls Hacchobori 1F).', alert:'Confirmed · 11:30 · table for 2' },
+        { time:'19:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tonkatsu Kenshin · とんかつ憲進', sub:'Dinner · tonkatsu · 19:30 · Tokyo', loc:'Tonkatsu Kenshin, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic', ja:'kenshin', notes:'A tonkatsu dinner to close the first Tokyo day — confirmed for 19:30, table for two.', alert:'Confirmed · 19:30 · table for 2' }
       ] },
-    { date:'2026-11-09', dayNum:10, weekday:'Monday, 9 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-09', dayNum:10, weekday:'Monday, 9 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'Sushi Meino at noon under our buyout, and a self-booked dinner at Bia in the evening.',
       stops:[
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Meino', sub:'Lunch · Edomae sushi · buyout · 2 seats · 12:00', loc:'Sushi Meino, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/ZnA9MEq7rhkjYMLY9?g_st=ic', notes:'An established anchor of the Tokyo programme. Mei-san — the chef behind Meino — works the small counter himself, shaping a precise Edomae progression piece by piece; an intimate, personal lunch rather than a grand room. Two seats held for you within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 12:00 · no fragrance at the counter' },
-        { time:'20:30', type:'restaurant', badge:'Self-booked', badgeType:'self-booked', title:'Bia', sub:'Dinner · 20:30 · Tokyo', loc:'Bia, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/TehQ9BPhVw9qKfnRA?g_st=ic', notes:'A dinner at Bia at 20:30, booked directly by you — a table for two.', alert:'Self-booked · 20:30 · table for 2' }
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Meino', sub:'Lunch · Edomae sushi · buyout · 2 seats · 12:00', loc:'Sushi Meino, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/ZnA9MEq7rhkjYMLY9?g_st=ic', ja:'meino', notes:'An established anchor of the Tokyo programme. Mei-san — the chef behind Meino — works the small counter himself, shaping a precise Edomae progression piece by piece; an intimate, personal lunch rather than a grand room. Two seats held for you within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 12:00 · no fragrance at the counter' },
+        { time:'20:30', type:'restaurant', badge:'Self-booked', badgeType:'self-booked', title:'Bia', sub:'Dinner · 20:30 · Tokyo', loc:'Bia, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/TehQ9BPhVw9qKfnRA?g_st=ic', ja:'bia', notes:'A dinner at Bia at 20:30, booked directly by you — a table for two.', alert:'Self-booked · 20:30 · table for 2' }
       ] },
-    { date:'2026-11-10', dayNum:11, weekday:'Tuesday, 10 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-10', dayNum:11, weekday:'Tuesday, 10 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'An unagi lunch, then a split evening — Richard and Axel each take a single confirmed seat at a different sushi counter.',
       stops:[
-        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', sub:'Lunch · charcoal-grilled unagi · 12:30 · Yurakucho', loc:'Sumiyaki Unafuji, Yurakucho', addr:'Yurakucho, Tokyo', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic', notes:'The Yurakucho branch of the celebrated Unafuji — charcoal-grilled (sumiyaki) unagi and hitsumabushi. Confirmed for 12:30, table for two. Please arrive on time; the table is released if you are more than 10 minutes late.', alert:'Confirmed · 12:30 · table for 2 · Please arrive on time; the table is released if you are more than 10 minutes late.' },
-        { time:'20:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Ikkou · split evening', sub:'Dinner · sushi · 20:00 · one seat', loc:'Sushi Ikkou, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic', notes:'A split evening: one of you at Sushi Ikkou, the other at Sushi Nihee, both at 20:00 — a single seat confirmed at each. Confirmed. Dress code: a smart shirt and trousers.', alert:'Confirmed · 20:00 · split · 1 seat · Dress code: a smart shirt and trousers.' },
-        { time:'20:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Nihee · split evening', sub:'Dinner · sushi · 20:00 · one seat', loc:'Sushi Nihee, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic', notes:'The other half of the split evening — a single seat confirmed at Sushi Nihee at 20:00. Confirmed.', alert:'Confirmed · 20:00 · split · 1 seat' }
+        { time:'12:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', sub:'Lunch · charcoal-grilled unagi · 12:30 · Yurakucho', loc:'Sumiyaki Unafuji, Yurakucho', addr:'Yurakucho, Tokyo', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic', ja:'unafuji', notes:'The Yurakucho branch of the celebrated Unafuji — charcoal-grilled (sumiyaki) unagi and hitsumabushi. Confirmed for 12:30, table for two. Please arrive on time; the table is released if you are more than 10 minutes late.', alert:'Confirmed · 12:30 · table for 2 · Please arrive on time; the table is released if you are more than 10 minutes late.' },
+        { time:'20:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Ikkou · split evening', sub:'Dinner · sushi · 20:00 · one seat', loc:'Sushi Ikkou, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic', ja:'ikkou', notes:'A split evening: one of you at Sushi Ikkou, the other at Sushi Nihee, both at 20:00 — a single seat confirmed at each. Confirmed. Dress code: a smart shirt and trousers.', alert:'Confirmed · 20:00 · split · 1 seat · Dress code: a smart shirt and trousers.' },
+        { time:'20:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Nihee · split evening', sub:'Dinner · sushi · 20:00 · one seat', loc:'Sushi Nihee, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic', ja:'nihee', notes:'The other half of the split evening — a single seat confirmed at Sushi Nihee at 20:00. Confirmed.', alert:'Confirmed · 20:00 · split · 1 seat' }
       ] },
-    { date:'2026-11-11', dayNum:12, weekday:'Wednesday, 11 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-11', dayNum:12, weekday:'Wednesday, 11 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'Tempura Naruse at noon — the second secured anchor. Naruse\u0027s celebrated counter is in Shizuoka, about an hour from Tokyo by Shinkansen; a Happy Camper buyout, with two seats held for you on the counter.',
       stops:[
         { time:'~10:30', type:'transport', badge:'Transfer', badgeType:'requested', title:'Train to Shizuoka', sub:'Shinkansen · ~1 h from Tokyo', loc:'Tokyo Station', addr:'1-9-1 Marunouchi, Chiyoda City, Tokyo', q:'Tokyo Station', notes:'A short Shinkansen run down to Shizuoka for the private Naruse lunch, returning to Tokyo afterward. Times confirmed once the day is set.', alert:null },
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tempura Naruse', sub:'Lunch · tempura · buyout · 2 seats · 12:00', loc:'Tempura Naruse', addr:'Shizuoka', q:'Tempura Naruse Shizuoka', notes:'A second confirmed anchor — two seats on the tempura counter, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 12:00' },
-        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Kaiseki Suetomi · 末冨', sub:'Dinner · kaiseki · 20:30 · Aoyama, Tokyo', loc:'Kaiseki Suetomi, Aoyama', addr:'Tokyo', q:'35.66001,139.70796', notes:'A kaiseki dinner (末冨) back in Tokyo after the Shizuoka lunch, in the Verde Aoyama building — confirmed for 20:30, table for two. Dress code: a smart shirt and trousers.', alert:'Confirmed · 20:30 · table for 2 · Dress code: a smart shirt and trousers.' }
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Tempura Naruse', sub:'Lunch · tempura · buyout · 2 seats · 12:00', loc:'Tempura Naruse', addr:'Shizuoka', q:'Tempura Naruse Shizuoka', ja:'naruse', notes:'A second confirmed anchor — two seats on the tempura counter, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 12:00' },
+        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Kaiseki Suetomi · 末冨', sub:'Dinner · kaiseki · 20:30 · Aoyama, Tokyo', loc:'Kaiseki Suetomi, Aoyama', addr:'Tokyo', q:'35.66001,139.70796', ja:'suetomi', notes:'A kaiseki dinner (末冨) back in Tokyo after the Shizuoka lunch, in the Verde Aoyama building — confirmed for 20:30, table for two. Dress code: a smart shirt and trousers.', alert:'Confirmed · 20:30 · table for 2 · Dress code: a smart shirt and trousers.' }
       ] },
-    { date:'2026-11-12', dayNum:13, weekday:'Thursday, 12 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-12', dayNum:13, weekday:'Thursday, 12 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'A lunch idea at Kenshin, and the confirmed Yakitori Hikita to close the evening.',
       stops:[
-        { time:'13:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Pizza on 38th', sub:'Lunch · pizza · 13:30 · Tokyo', loc:'Pizza on 38th, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic', notes:'A relaxed confirmed lunch at Pizza on 38th, 13:30 — a table for three.', alert:'Confirmed · 13:30 · table for 3' },
-        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Yakitori Hikita', sub:'Dinner · yakitori · buyout · 2 seats · 20:30', loc:'Yakitori Hikita, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic', notes:'Two seats at the Hikita yakitori counter at 20:30, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 20:30' }
+        { time:'13:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Pizza on 38th', sub:'Lunch · pizza · 13:30 · Tokyo', loc:'Pizza on 38th, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic', ja:'pizza38', notes:'A relaxed confirmed lunch at Pizza on 38th, 13:30 — a table for three.', alert:'Confirmed · 13:30 · table for 3' },
+        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Yakitori Hikita', sub:'Dinner · yakitori · buyout · 2 seats · 20:30', loc:'Yakitori Hikita, Tokyo', addr:'Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic', ja:'hikita', notes:'Two seats at the Hikita yakitori counter at 20:30, within the Happy Camper buyout. Confirmed.', alert:'Buyout · 2 seats · 20:30' }
       ] },
-    { date:'2026-11-13', dayNum:14, weekday:'Friday, 13 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-13', dayNum:14, weekday:'Friday, 13 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'A split noon — Richard at Sushi Saito, Axel at Sukiyabashi Jiro with the Happy Camper host — then a confirmed dinner at Chez Calvert.',
       stops:[
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Saito · Richard', sub:'Lunch · sushi · 3★ · buyout · 1 seat · 12:00', loc:'Sushi Saito, Tokyo', addr:'Roppongi, Tokyo', q:'Sushi Saito Tokyo', notes:'Richard takes the seat at Sushi Saito — one of the most coveted three-star counters in Tokyo, a single seat within the Happy Camper buyout, at 12:00. Confirmed.', alert:'Confirmed · 1 seat · 12:00 · Richard' },
-        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sukiyabashi Jiro · Axel', sub:'Lunch · sushi · 12:00 · Axel + host · Ginza', loc:'Sukiyabashi Jiro, Ginza', addr:'Ginza, Tokyo', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic', notes:'Axel takes Sukiyabashi Jiro — access requires an introduction, so the Happy Camper host accompanies him (two covers). From the shop: arrive 5 minutes early (11:55); no photography inside; no perfume or fragrance; and no t-shirts or short trousers — smart, covered dress. Confirmed.', alert:'Confirmed · 12:00 · Axel + host · arrive 11:55 · no photos · no fragrance · smart dress' },
-        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Chez Calvert', sub:'Dinner · French · 20:30 · Tokyo', loc:'', addr:'', q:'', notes:'The new restaurant from chef Daniel Calvert — now confirmed for 20:30. Location to be confirmed. Dress code (the strictest of the trip): no short sleeves and no trainers — a smart long-sleeved shirt and dress shoes; a jacket is advisable.', alert:'Confirmed · 20:30 · Dress code (the strictest of the trip): no short sleeves and no trainers — a smart long-sleeved shirt and dress shoes; a jacket is advisable.' }
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sushi Saito · Richard', sub:'Lunch · sushi · 3★ · buyout · 1 seat · 12:00', loc:'Sushi Saito, Tokyo', addr:'Roppongi, Tokyo', q:'Sushi Saito Tokyo', ja:'saito', notes:'Richard takes the seat at Sushi Saito — one of the most coveted three-star counters in Tokyo, a single seat within the Happy Camper buyout, at 12:00. Confirmed.', alert:'Confirmed · 1 seat · 12:00 · Richard' },
+        { time:'12:00', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Sukiyabashi Jiro · Axel', sub:'Lunch · sushi · 12:00 · Axel + host · Ginza', loc:'Sukiyabashi Jiro, Ginza', addr:'Ginza, Tokyo', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic', ja:'jiro', notes:'Axel takes Sukiyabashi Jiro — access requires an introduction, so the Happy Camper host accompanies him (two covers). From the shop: arrive 5 minutes early (11:55); no photography inside; no perfume or fragrance; and no t-shirts or short trousers — smart, covered dress. Confirmed.', alert:'Confirmed · 12:00 · Axel + host · arrive 11:55 · no photos · no fragrance · smart dress' },
+        { time:'20:30', type:'restaurant', badge:'Confirmed', badgeType:'confirmed', title:'Chez Calvert', sub:'Dinner · French · 20:30 · Tokyo', loc:'', addr:'', q:'', ja:'calvert', notes:'The new restaurant from chef Daniel Calvert — now confirmed for 20:30. Location to be confirmed. Dress code (the strictest of the trip): no short sleeves and no trainers — a smart long-sleeved shirt and dress shoes; a jacket is advisable.', alert:'Confirmed · 20:30 · Dress code (the strictest of the trip): no short sleeves and no trainers — a smart long-sleeved shirt and dress shoes; a jacket is advisable.' }
       ] },
-    { date:'2026-11-14', dayNum:15, weekday:'Saturday, 14 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', hotelNote:'Central Ginza · spacious rooms', hosted:false,
+    { date:'2026-11-14', dayNum:15, weekday:'Saturday, 14 November', city:'Tokyo', cityClass:'', hotel:'Ginza Hotel by Granbell', hq:'Ginza Hotel by Granbell Tokyo', ja:'granbell', hotelNote:'Central Ginza · spacious rooms', hosted:false,
       notes:'A final Tokyo lunch at MAZ — before the 22:05 departure.',
       stops:[
         { time:'12:15', type:'restaurant', badge:'Self-booked', badgeType:'self-booked', title:'MAZ', sub:'Lunch · Peruvian · 12:15 · 2 guests · Tokyo', loc:'MAZ, Tokyo', addr:'Tokyo', q:'MAZ Tokyo', notes:'A final Tokyo lunch at MAZ — Virgilio Martínez\u0027s Tokyo restaurant (of Central, Lima), a vertical journey through Peru\u0027s ecosystems. Booked directly for 12:15, table for two.', alert:'Self-booked · 12:15 · table for 2' },
@@ -637,39 +664,39 @@ var TRIP = {
 
 /* ═══ WISH LIST ═══ */
 var WL_CONFIRMED = [
-  { name:'Sushi Sakai', style:'Sushi · Sat 31 Oct · 19:30 · dinner · Fukuoka', q:'Sushi Sakai Fukuoka' },
-  { name:'Imoto', style:'Kappo · Sun 1 Nov · 19:30 · dinner · Fukuoka', q:'https://maps.app.goo.gl/47E3Nuz9R4tdDRDv8?g_st=ic' },
-  { name:'Sakuraan · 桜庵', style:'Refined horse cuisine · Mon 2 Nov · 19:30 · dinner · Kumamoto', q:'https://maps.app.goo.gl/4sa5P8ughVyfAUhz8?g_st=ic' },
-  { name:'Ajimori', style:'Kurobuta black-pork shabu-shabu · Tue 3 Nov · 12:30 · lunch · Kagoshima', q:'Ajimori Kagoshima' },
+  { name:'Sushi Sakai', style:'Sushi · Sat 31 Oct · 19:30 · dinner · Fukuoka', q:'Sushi Sakai Fukuoka', ja:'sakai' },
+  { name:'Imoto', style:'Kappo · Sun 1 Nov · 19:30 · dinner · Fukuoka', q:'https://maps.app.goo.gl/47E3Nuz9R4tdDRDv8?g_st=ic', ja:'imoto' },
+  { name:'Sakuraan · 桜庵', style:'Refined horse cuisine · Mon 2 Nov · 19:30 · dinner · Kumamoto', q:'https://maps.app.goo.gl/4sa5P8ughVyfAUhz8?g_st=ic', ja:'sakuraan' },
+  { name:'Ajimori', style:'Kurobuta black-pork shabu-shabu · Tue 3 Nov · 12:30 · lunch · Kagoshima', q:'Ajimori Kagoshima', ja:'ajimori' },
   { name:'Tachigui Sushi Yusho · 立喰い寿司 有匠', style:'Standing sushi · Thu 5 Nov · 11:00 · lunch · Kanazawa', q:'Tachigui Sushi Yusho Kanazawa' },
   { name:'Yakitori Kouun · 焼鳥 行雲', style:'Yakitori · Tue 3 Nov · 20:30 · dinner · Kagoshima', q:'Yakitori Kouun Kagoshima' },
-  { name:'Tempura Matoba', style:'Tempura · Wed 4 Nov · 19:00 · dinner · Kanazawa', q:'https://maps.app.goo.gl/G3rJwmds3xnUkErJ8?g_st=ic' },
-  { name:'Respiración', style:'Noto produce · Fri 6 Nov · 11:45 · lunch · Kanazawa', q:'Respiracion Kanazawa' },
-  { name:'Sushi Mekumi', style:'Sushi & kappo · Fri 6 Nov · 18:00 · dinner · near Kanazawa', q:'Sushi Mekumi Nonoichi Kanazawa' },
+  { name:'Tempura Matoba', style:'Tempura · Wed 4 Nov · 19:00 · dinner · Kanazawa', q:'https://maps.app.goo.gl/G3rJwmds3xnUkErJ8?g_st=ic', ja:'matoba' },
+  { name:'Respiración', style:'Noto produce · Fri 6 Nov · 11:45 · lunch · Kanazawa', q:'Respiracion Kanazawa', ja:'respiracion' },
+  { name:'Sushi Mekumi', style:'Sushi & kappo · Fri 6 Nov · 18:00 · dinner · near Kanazawa', q:'Sushi Mekumi Nonoichi Kanazawa', ja:'mekumi' },
   { name:'Noguchi Naohiko Sake Institute', style:'Private sake tasting · Sat 7 Nov · 15:00 · Komatsu', q:'Noguchi Naohiko Sake Institute Komatsu' },
-  { name:'Auberge Eaufeu', style:'Dining with rooms · Sat 7 Nov · 19:00 · dinner & 2 rooms · Komatsu', q:'Auberge Eaufeu Komatsu' },
-  { name:'Sushi Yamato', style:'Sushi · Sun 8 Nov · 11:30 · lunch · Hatchobori, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo' },
-  { name:'Tonkatsu Kenshin · とんかつ憲進', style:'Tonkatsu · Sun 8 Nov · 19:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic' },
-  { name:'Sushi Meino', style:'Edomae sushi · Mon 9 Nov · 12:00 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/ZnA9MEq7rhkjYMLY9?g_st=ic' },
-  { name:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', style:'Charcoal-grilled unagi · Tue 10 Nov · 12:30 · lunch · Yurakucho', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic' },
-  { name:'Sushi Ikkou', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic' },
-  { name:'Sushi Nihee', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic' },
-  { name:'Tempura Naruse', style:'Tempura · Wed 11 Nov · 12:00 · buyout · 2 seats · Shizuoka', q:'Tempura Naruse Shizuoka' },
-  { name:'Kaiseki Suetomi · 末冨', style:'Kaiseki · Wed 11 Nov · 20:30 · dinner · Aoyama, Tokyo', q:'35.66001,139.70796' },
-  { name:'Pizza on 38th', style:'Pizza · Thu 12 Nov · 13:30 · lunch · table for 3 · Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic' },
-  { name:'Yakitori Hikita', style:'Yakitori · Thu 12 Nov · 20:30 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic' },
-  { name:'Sushi Saito', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Richard · 1 seat · Tokyo', q:'Sushi Saito Tokyo' },
-  { name:'Sukiyabashi Jiro', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Axel + host · Ginza', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic' },
+  { name:'Auberge Eaufeu', style:'Dining with rooms · Sat 7 Nov · 19:00 · dinner & 2 rooms · Komatsu', q:'Auberge Eaufeu Komatsu', ja:'eaufeu' },
+  { name:'Sushi Yamato', style:'Sushi · Sun 8 Nov · 11:30 · lunch · Hatchobori, Tokyo', q:'3-11-12 Hatchobori, Chuo-ku, Tokyo', ja:'yamato' },
+  { name:'Tonkatsu Kenshin · とんかつ憲進', style:'Tonkatsu · Sun 8 Nov · 19:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/uXKcvk8DQLu4cpRd9?g_st=ic', ja:'kenshin' },
+  { name:'Sushi Meino', style:'Edomae sushi · Mon 9 Nov · 12:00 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/ZnA9MEq7rhkjYMLY9?g_st=ic', ja:'meino' },
+  { name:'Sumiyaki Unafuji · 炭焼 うな富士 有楽町店', style:'Charcoal-grilled unagi · Tue 10 Nov · 12:30 · lunch · Yurakucho', q:'https://maps.app.goo.gl/u45abC34HjCJYU7VA?g_st=ic', ja:'unafuji' },
+  { name:'Sushi Ikkou', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/WfCA8xepR1EaDwgs9?g_st=ic', ja:'ikkou' },
+  { name:'Sushi Nihee', style:'Sushi · Tue 10 Nov · 20:00 · split evening · 1 seat · Tokyo', q:'https://maps.app.goo.gl/U9qFqFFBo3ZDzj587?g_st=ic', ja:'nihee' },
+  { name:'Tempura Naruse', style:'Tempura · Wed 11 Nov · 12:00 · buyout · 2 seats · Shizuoka', q:'Tempura Naruse Shizuoka', ja:'naruse' },
+  { name:'Kaiseki Suetomi · 末冨', style:'Kaiseki · Wed 11 Nov · 20:30 · dinner · Aoyama, Tokyo', q:'35.66001,139.70796', ja:'suetomi' },
+  { name:'Pizza on 38th', style:'Pizza · Thu 12 Nov · 13:30 · lunch · table for 3 · Tokyo', q:'https://maps.app.goo.gl/veh94FUsFN7Q7gAt5?g_st=ic', ja:'pizza38' },
+  { name:'Yakitori Hikita', style:'Yakitori · Thu 12 Nov · 20:30 · buyout · 2 seats · Tokyo', q:'https://maps.app.goo.gl/A4cEerXkskyQZGsu9?g_st=ic', ja:'hikita' },
+  { name:'Sushi Saito', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Richard · 1 seat · Tokyo', q:'Sushi Saito Tokyo', ja:'saito' },
+  { name:'Sukiyabashi Jiro', style:'Sushi · 3★ · Fri 13 Nov · 12:00 · Axel + host · Ginza', q:'https://maps.app.goo.gl/a1ay4CApUxwpPkT89?g_st=ic', ja:'jiro' },
   { name:'Chez Calvert', style:'French · Fri 13 Nov · 20:30 · dinner · Tokyo', q:'' }
 ];
 var WL_REQUESTED = [
 ];
 var WL_SUGGESTIONS = [
-  { name:'Ichiran · Honsha Sohonten', style:'Walk-in · tonkotsu ramen flagship · Sun 1 Nov · Fukuoka', q:'https://maps.app.goo.gl/WSRpkMY47ugCKsABA?g_st=ic' },
-  { name:'Hakata Genki Ippai!!', style:'Walk-in · Hakata ramen · Mon 2 Nov · Fukuoka', q:'Hakata Genki Ippai Fukuoka' },
-  { name:'Ebitei Beikkan', style:'Self-booked · Toyama Bay · Thu 5 Nov · 18:00 · dinner · Toyama', q:'Ebitei Toyama' },
+  { name:'Ichiran · Honsha Sohonten', style:'Walk-in · tonkotsu ramen flagship · Sun 1 Nov · Fukuoka', q:'https://maps.app.goo.gl/WSRpkMY47ugCKsABA?g_st=ic', ja:'ichiran' },
+  { name:'Hakata Genki Ippai!!', style:'Walk-in · Hakata ramen · Mon 2 Nov · Fukuoka', q:'Hakata Genki Ippai Fukuoka', ja:'genki' },
+  { name:'Ebitei Beikkan', style:'Self-booked · Toyama Bay · Thu 5 Nov · 18:00 · dinner · Toyama', q:'Ebitei Toyama', ja:'ebitei' },
   { name:'Ramen or pancakes', style:'Walk-in · Sat 7 Nov · lunch · Komatsu', q:'Komatsu Ishikawa restaurants' },
-  { name:'Bia', style:'Self-booked · Mon 9 Nov · 20:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/TehQ9BPhVw9qKfnRA?g_st=ic' },
+  { name:'Bia', style:'Self-booked · Mon 9 Nov · 20:30 · dinner · Tokyo', q:'https://maps.app.goo.gl/TehQ9BPhVw9qKfnRA?g_st=ic', ja:'bia' },
   { name:'MAZ', style:'Self-booked · Sat 14 Nov · 12:15 · lunch · Peruvian · Tokyo', q:'MAZ Tokyo' },
 
 ];
@@ -703,9 +730,9 @@ var VISITED = [
   { name:'Kanesaka',          style:'Sushi · Tokyo',              q:'Sushi Kanesaka Ginza Tokyo' },
   { name:'Kusunoki',          style:'Tempura · Tokyo',            q:'Tempura Kusunoki Yotsuya Tokyo' },
   { name:'Shunsuke Asagaya',  style:'Sushi · Asagaya, Tokyo',     q:'Sushi Shunsuke Asagaya Tokyo' },
-  { name:'Bia',               style:'Fine dining',                q:'Bia restaurant Tokyo' },
+  { name:'Bia',               style:'Fine dining',                q:'Bia restaurant Tokyo', ja:'bia' },
   { name:'Narisawa',          style:'Innovative · Tokyo',         q:'Narisawa Tokyo' },
-  { name:'MAZ',               style:'Modern Peruvian · Tokyo',    q:'MAZ Tokyo Azabudai' },
+  { name:'MAZ',               style:'Modern Peruvian · Tokyo',    q:'MAZ Tokyo Azabudai', ja:'maz' },
   { name:'Kadowaki',          style:'Japanese · Azabu, Tokyo',    q:'Azabu Kadowaki Tokyo' },
   { name:'L\u2019Effervescence', style:'Contemporary French · Tokyo', q:'L\u2019Effervescence Tokyo' },
   { name:'Kondo',             style:'Tempura · Ginza, Tokyo',     q:'Tempura Kondo Ginza Tokyo' },
@@ -990,12 +1017,73 @@ var DISCOVER = {
 var DISCOVER_CITIES = ["Fukuoka","Kumamoto","Kagoshima","Kanazawa","Toyama","Komatsu","Tokyo"];
 var DISCOVER_ACTIVE = 'Fukuoka';
 
+
+/* ═══ JAPANESE PLACE DIRECTORY · taxi card ═══
+   Addresses as Google Maps renders them in Japanese; each cross-checked
+   against Google's romanised address and postcode. Stops without an entry
+   show a disabled Taxi button rather than a guess. */
+var JA_DIR = {
+  sakai:{ name:'Sushi Sakai', en:'Sushi Sakai', addr:'〒810-0002 福岡県福岡市中央区西中洲3-20 LANEラウンドビル2F', tel:'+81927266289' },
+  ichiran:{ name:'一蘭 本社総本店', en:'Ichiran Head Office', addr:'〒810-0801 福岡県福岡市博多区中洲5-3-2', tel:'+815037332600' },
+  imoto:{ name:'いもと', en:'Imoto', addr:'〒810-0022 福岡県福岡市中央区薬院4-15-29', tel:'+81927537125' },
+  genki:{ name:'博多元気一杯!!', en:'Hakata Genki Ippai!!', addr:'〒812-0034 福岡県福岡市博多区下呉服町4-31-1', tel:'+819013624311' },
+  lively:{ name:'ザ・ライブリー福岡博多', en:'THE LIVELY Fukuoka Hakata', addr:'〒810-0801 福岡県福岡市博多区中洲5-2-18', tel:'+81501382071' },
+  sakuraan:{ name:'桜庵', en:'Sakuraan', addr:'〒860-0802 熊本県熊本市中央区中央街2-1', tel:'+81963514992' },
+  onestation:{ name:'ワンステーションホテル熊本', en:'ONE STATION HOTEL KUMAMOTO', addr:'〒860-0047 熊本県熊本市西区春日1-13-1', tel:'+81963261111' },
+  ajimori:{ name:'あぢもり', en:'Ajimori', addr:'〒892-0843 鹿児島県鹿児島市千日町13-21', tel:'+81992247634' },
+  favlux:{ name:'FAV LUX 鹿児島天文館', en:'FAV LUX Kagoshima Tenmonkan', addr:'〒892-0844 鹿児島県鹿児島市山之口町7-30', tel:'+815017939828' },
+  matoba:{ name:'てんぷら的場', en:'Tempura Matoba', addr:'〒920-0831 石川県金沢市東山1-14-4', tel:'' },
+  koko:{ name:'KOKO HOTEL Premier 金沢香林坊', en:'KOKO HOTEL Premier Kanazawa Korinbo', addr:'〒920-0961 石川県金沢市香林坊1-2-16', tel:'+81762238805' },
+  respiracion:{ name:'レスピラシオン', en:'Respiración', addr:'〒920-0903 石川県金沢市博労町67', tel:'+81762258681' },
+  mekumi:{ name:'めくみ', en:'Mekumi', addr:'〒921-8831 石川県野々市市下林4丁目48', tel:'+81762467781' },
+  ebitei:{ name:'海老亭別館', en:'Ebitei Bekkan', addr:'〒930-0087 富山県富山市安野屋町2-4-10', tel:'+81764323181' },
+  eaufeu:{ name:'オーベルジュ オーフ', en:'Auberge eaufeu', addr:'〒923-0171 石川県小松市金平町ロ48番地', tel:'+81761417080' },
+  yamato:{ name:'鮨処 やまと', en:'Sushidokoro Yamato', addr:'〒104-0032 東京都中央区八丁堀3-11-12', tel:'' },
+  kenshin:{ name:'とんかつ憲進', en:'Tonkatsu Kenshin', addr:'〒162-0825 東京都新宿区神楽坂3-1-23 Ami神楽坂2階', tel:'+81368269862' },
+  meino:{ name:'鮨 めいの', en:'Sushi Meino', addr:'〒106-0045 東京都港区麻布十番1-6-1 6F', tel:'' },
+  bia:{ name:'Bia', en:'Bia', addr:'〒106-0032 東京都港区六本木7-3-21 来山ビル2F', tel:'+81368042489' },
+  unafuji:{ name:'炭焼 うな富士 有楽町店', en:'Sumiyaki Unafuji Yurakucho', addr:'〒100-0011 東京都千代田区内幸町1-7-1 H12', tel:'+81364579688' },
+  ikkou:{ name:'鮨 一幸', en:'Sushi Ikkou', addr:'〒104-0061 東京都中央区銀座5-11-12 日総第26ビル3F', tel:'+81362643388' },
+  nihee:{ name:'麹町 仁兵衛', en:'Kojimachi Nihee', addr:'〒102-0083 東京都千代田区麹町3-5-19', tel:'+81363809318' },
+  naruse:{ name:'成瀬', en:'Naruse', addr:'〒420-0861 静岡県静岡市葵区丸山町12-2', tel:'+81542957791' },
+  suetomi:{ name:'末冨', en:'Kaiseki Suetomi', addr:'〒150-0002 東京都渋谷区渋谷2-6-12 ベルデ青山ビル', tel:'' },
+  pizza38:{ name:'ザ ピッツァバー オン 38th', en:'The Pizza Bar on 38th', addr:'〒103-8328 東京都中央区日本橋室町2-1-1', tel:'+81332708188' },
+  hikita:{ name:'ひきた', en:'Hikita', addr:'〒150-0022 東京都渋谷区恵比寿南1-14-15 ラ・レンヌ恵比寿4階', tel:'' },
+  saito:{ name:'鮨 さいとう', en:'Sushi Saito', addr:'〒106-0032 東京都港区六本木1-4-5 1F', tel:'+81335894412' },
+  jiro:{ name:'すきやばし次郎', en:'Sukiyabashi Jiro', addr:'〒104-0061 東京都中央区銀座4-2-15 塚本総業ビルB1階', tel:'+81335353600' },
+  calvert:{ name:'シェ・カルヴェ', en:'CHEZ CALVERT', addr:'〒106-0041 東京都港区麻布台1-1-2 ヒルズ レジデンスB 2階', tel:'+81345003505' },
+  maz:{ name:'MAZ', en:'MAZ', addr:'〒102-0094 東京都千代田区紀尾井町1-1-3 東京ガーデンテラス3F', tel:'+81362728513' },
+  granbell:{ name:'銀座ホテル by グランベル', en:'GINZA HOTEL by GRANBELL', addr:'〒104-0061 東京都中央区銀座7-2-18 5F', tel:'+81362638935' }
+};
+
 /* ═══ HELPERS ═══ */
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function gm(q){return(q&&q.indexOf('http')===0)?q:'https://maps.google.com/?q='+encodeURIComponent(q||'Tokyo Japan');}
 function nav(q){return(q&&q.indexOf('http')===0)?q:'https://maps.google.com/maps?daddr='+encodeURIComponent(q||'Tokyo Japan')+'&dirflg=d';}
 var toastTm;
 function showToast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTm);toastTm=setTimeout(function(){el.classList.remove('show');},2200);}
+window.showTaxi=function(key){
+  var j=JA_DIR[key]; if(!j)return;
+  document.getElementById('taxi-body').innerHTML=''
+    +'<div class="taxi-card">'
+    +  '<div class="taxi-to">行き先 · DESTINATION</div>'
+    +  '<div class="taxi-name">'+esc(j.name)+'</div>'
+    +  '<div class="taxi-name-en">'+esc(j.en)+'</div>'
+    +  '<div class="taxi-addr">'+esc(j.addr)+'</div>'
+    +  '<div class="taxi-ask">ここまでお願いします。</div>'
+    +  '<div class="taxi-ask-en">Please take me here.</div>'
+    +'</div>'
+    +'<div class="taxi-actions">'
+    +  '<a href="'+gm(j.addr)+'" target="_blank" rel="noopener" class="taxi-act pri">📍 Open in Maps</a>'
+    +  (j.tel?'<a href="tel:'+j.tel+'" class="taxi-act">📞 Call</a>':'')
+    +'</div>';
+  document.getElementById('taxi-modal').classList.add('active');
+  document.body.style.overflow='hidden';
+};
+window.closeTaxi=function(){
+  document.getElementById('taxi-modal').classList.remove('active');
+  document.body.style.overflow='';
+};
 window.copyAddr=function(di,si){
   var stop=TRIP.days[di].stops[si];
   var txt=(stop.addr&&stop.addr!=='Tokyo'&&stop.addr!=='Kyoto')?stop.addr:stop.loc;
@@ -1040,11 +1128,14 @@ function renderStop(stop,di,si){
   var badge=stop.badge?'<span class="stop-badge '+stop.badgeType+'">'+esc(stop.badge)+'</span>':'';
   var dotClass=isSuggestion?'t-suggestion':('t-'+(stop.type||'restaurant'));
   var cardClass=stop.badgeType==='suggestion'?' is-suggestion':(stop.badgeType==='pending'?' is-pending':'');
+  var hasJa=!!(stop.ja&&JA_DIR[stop.ja]);
+  var taxiBtn=hasJa?'<button class="map-btn" onclick="showTaxi(\''+stop.ja+'\')">🚕 Taxi</button>':'<span class="map-btn map-disabled">🚕</span>';
   var mapHTML=hasLoc
     ?'<a href="'+gm(stop.q)+'" target="_blank" rel="noopener" class="map-btn mp">📍 Maps</a>'
       +'<a href="'+nav(stop.q)+'" target="_blank" rel="noopener" class="map-btn">🧭 Nav</a>'
+      +taxiBtn
       +'<button class="map-btn" onclick="copyAddr('+di+','+si+')">⎘ Copy</button>'
-    :'<span class="map-btn map-disabled">📍</span><span class="map-btn map-disabled">🧭</span><span class="map-btn map-disabled">⎘</span>';
+    :'<span class="map-btn map-disabled">📍</span><span class="map-btn map-disabled">🧭</span>'+taxiBtn+'<span class="map-btn map-disabled">⎘</span>';
   return '<div class="stop-item">'
     +'<div class="stop-time">'+(stop.time?stop.time.replace('~',''):'')+'</div>'
     +'<div class="stop-dot '+dotClass+'"></div>'
@@ -1387,6 +1478,29 @@ function renderUtilities(){
     +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>A thoughtful gift</strong> &mdash; good sweets from a well-regarded shop &mdash; is more appropriate than cash.</div></div>'
     +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>The rare exception (<em>otokishugi</em>):</strong> a discreet cash envelope, typically only for long-standing regulars or business relationships.</div></div>'
     +'</div>'
+    +'<div class="util-card"><div class="util-card-title">🍽️ At the counter</div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Chopsticks</strong> &mdash; never stand them upright in rice, and never pass food chopstick-to-chopstick &mdash; both echo funeral rites. Turn them and use the clean ends for a shared dish.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Photography</strong> &mdash; ask before the first course. Many counters allow the dish but not the room, never the flash, and never other guests.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Eat at the chef&rsquo;s pace</strong> &mdash; each piece is meant to be eaten within seconds of being set down &mdash; warm rice, cool fish. Fingers are perfectly correct, and tempura is the same.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Soy and wasabi</strong> &mdash; at the better counters each piece is already seasoned and no soy dish appears. Where it is served, dip the fish, never the rice, and don&rsquo;t stir wasabi into it.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Pouring</strong> &mdash; fill your companions&rsquo; glasses, not your own; someone will return the favour. Lift your glass slightly to be poured.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Phones at the counter</strong> &mdash; silent and out of sight. Step outside for anything that cannot wait &mdash; in a ten-seat room, one call is heard by everyone.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>The oshibori</strong> &mdash; the warm towel is for your hands before the meal &mdash; not the face, not the counter. Fold it and set it aside.</div></div>'
+    +'<div class="rule-item"><span class="rule-icon">•</span><div class="rule-text"><strong>Finish what is served</strong> &mdash; each course is portioned deliberately for you, and anything left is reported back to the kitchen. If a dish defeats you, say so warmly rather than leaving it.</div></div>'
+    +'</div>'
+    +'<div class="section-label">Getting Around</div>'
+    +'<div class="util-card"><ul class="info-list">'
+    +'<li><span class="info-emoji">📍</span><div class="info-text"><strong>Every stop carries its own buttons</strong>Each entry on your itinerary has <strong>Maps</strong>, <strong>Nav</strong>, <strong>Taxi</strong> and <strong>Copy</strong>. Maps opens the venue in Google Maps, where the address appears in Japanese &mdash; the form a driver, concierge or passer-by will recognise.</div></li>'
+    +'<li><span class="info-emoji">🚕</span><div class="info-text"><strong>Show the driver</strong>The Taxi button opens a full-screen card in Japanese: the venue name, its address, and a line asking to be taken there. Hand your phone to the driver &mdash; no pronunciation required.</div></li>'
+    +'<li><span class="info-emoji">🚄</span><div class="info-text"><strong>Shinkansen</strong>Reserved seats are booked for you and shown on your itinerary. Be on the platform five minutes early &mdash; doors close to the second, and your carriage position is marked on the platform floor.</div></li>'
+    +'<li><span class="info-emoji">🧳</span><div class="info-text"><strong>Luggage sent ahead</strong>Where your itinerary shows a luggage transfer, your main bags travel separately and meet you at the next hotel. Pack a small overnight bag for the nights between; 30 kg per piece.</div></li>'
+    +'<li><span class="info-emoji">📱</span><div class="info-text"><strong>IC cards &mdash; tap and go</strong>Suica or Pasmo covers subway, bus and local JR nationwide, and doubles as payment in convenience stores. Not valid on the shinkansen &mdash; those tickets are issued separately.</div></li>'
+    +'<li><span class="info-emoji">🚖</span><div class="info-text"><strong>Taxis</strong>The rear door opens and closes by itself &mdash; stand clear and do not reach for it. Cards are widely accepted; tipping is not. The GO app works nationwide.</div></li>'
+    +'<li><span class="info-emoji">🚙</span><div class="info-text"><strong>Your private cars</strong>Transfers marked on the itinerary are private cars with driver. Your driver waits in the hotel lobby, not at the kerb.</div></li>'
+    +'<li><span class="info-emoji">🤫</span><div class="info-text"><strong>Train manners</strong>No phone calls in any carriage. Eating is normal on the shinkansen, not on local trains or the subway. Priority seats near the doors are left free when anyone may need them.</div></li>'
+    +'<li><span class="info-emoji">↔️</span><div class="info-text"><strong>Which side to stand</strong>Escalators: stand left in Tokyo and Kyoto, walk on the right. Osaka reverses it.</div></li>'
+    +'<li><span class="info-emoji">🌙</span><div class="info-text"><strong>Last trains</strong>Most lines stop between midnight and 1 a.m. After a late dinner a taxi is usually the easier answer, and your hotel will call one for you.</div></li>'
+    +'</ul></div>'
     +'<div class="disc-note" style="text-align:center">Arrive on time, dress with care, mind fragrance and thank the chef warmly &mdash; the same precision and consideration that make dining here so remarkable.<br><span style="color:var(--gold)">Unlocking Japan, one thoughtful moment at a time.</span></div>';
   var jEl=document.getElementById('fx-jpy'),uEl=document.getElementById('fx-eur');
   var grp=new Intl.NumberFormat('de-DE',{maximumFractionDigits:0});
