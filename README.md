@@ -5,6 +5,11 @@
 Changes to `index.html`, newest first. Source of truth: the Google Sheet
 "HCI Canvas/Program for Richard HAHNE 2026/10" (CANVAS and Confirmation tabs).
 
+### 2026-10-31
+- **Taxi card · Auberge eaufeu address corrected** to 〒923-0171 石川県小松市観音下町ロ48
+  (was 金平町, a different village).
+- **Taxi card names:** Naruse now 成生 (was 成瀬); Sushi Meino now 鮨 めい乃 (was 鮨 めいの).
+
 ### 2026-10-29
 - **Utilities · Attire card replaced by "Dress Etiquette".** Absorbs the four
   previous attire bullets (including the Chez Calvert / Kaiseki Suetomi /
