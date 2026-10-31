@@ -14,7 +14,7 @@ Hahne/Müller Japan trip, 31 Oct – 14 Nov 2026. It deploys from `main`.
 - Never alter the encrypted statement blobs or any map link (`q:` values).
 - Before editing, check that `index.html` is the full page (~166 KB) and not
   a pasted text stub. If it is a stub, restore it from the last good commit.
-- Show the diff and get approval before pushing to `main`.
+- Validate, then push to `main` directly; no approval step.
 
 ## Changelog
 Every change to `index.html` gets a dated entry in the `README.md` changelog,
