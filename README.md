@@ -5,6 +5,11 @@
 Changes to `index.html`, newest first. Source of truth: the Google Sheet
 "HCI Canvas/Program for Richard HAHNE 2026/10" (CANVAS and Confirmation tabs).
 
+### 2026-11-10
+- **Naruse lunch moved to 12:30** (was 12:00), Wed 11 Nov — stop time, sub, alert
+  and wish-list line. Matches the canvas. The ~10:30 Shinkansen down to Shizuoka
+  is unchanged and still arrives in good time.
+
 ### 2026-10-31
 - **Taxi card · Auberge eaufeu address corrected** to 〒923-0171 石川県小松市観音下町ロ48
   (was 金平町, a different village).
